@@ -61,3 +61,11 @@ The app will **automatically create and seed the SQLite database** on first laun
 - **Easy to set up & modify** – Clean and straightforward code  
 
 ---
+
+## Demo
+
+https://github.com/user-attachments/assets/d98bafd0-0d24-4955-bfc5-66a0aa691fb7
+
+
+
+
