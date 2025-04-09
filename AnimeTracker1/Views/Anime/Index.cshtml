@@ -1,0 +1,275 @@
+@model IEnumerable<AnimeTracker1.Models.Anime>
+@{
+    ViewData["Title"] = "My Anime List";
+}
+
+<div class="anime-header">
+    <div class="container py-4">
+        <div class="d-flex justify-content-between align-items-center">
+            <h1 class="h2 mb-0 fw-bold text-light">My Anime List</h1>
+            <a asp-action="Create" class="btn btn-accent">
+                <i class="bi bi-plus-circle me-2"></i>Add New Anime
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="container py-4">
+    <div class="mb-4">
+        <div class="filter-buttons" role="group">
+            <a asp-action="Index" class="btn btn-filter @(ViewBag.Status == null ? "active" : "")">All</a>
+            <a asp-action="Index" asp-route-status="@WatchStatus.Watching" class="btn btn-filter @(ViewBag.Status == WatchStatus.Watching ? "active" : "")">Watching</a>
+            <a asp-action="Index" asp-route-status="@WatchStatus.Completed" class="btn btn-filter @(ViewBag.Status == WatchStatus.Completed ? "active" : "")">Completed</a>
+            <a asp-action="Index" asp-route-status="@WatchStatus.PlanToWatch" class="btn btn-filter @(ViewBag.Status == WatchStatus.PlanToWatch ? "active" : "")">Plan to Watch</a>
+            <a asp-action="Index" asp-route-status="@WatchStatus.Dropped" class="btn btn-filter @(ViewBag.Status == WatchStatus.Dropped ? "active" : "")">Dropped</a>
+        </div>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="alert bg-dark-purple text-light-purple shadow-glow border-0">
+            <div class="d-flex align-items-center">
+                <i class="bi bi-info-circle fs-4 me-3"></i>
+                <div>
+                    <p class="mb-0">You haven't added any anime to your list yet. <a asp-action="Create" class="alert-link text-accent">Add one now</a>.</p>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row g-4">
+            @foreach (var item in Model)
+            {
+                <div class="col-md-6 col-lg-4">
+                    <div class="anime-card">
+                        <div class="status-badge @GetStatusClass(item.Status)">@item.Status</div>
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold mb-2 text-light">@item.Title</h5>
+                            <p class="card-text text-truncate mb-3 text-light-purple">@item.Description</p>
+                            
+                            @if (item.EpisodesWatched.HasValue && item.Episodes.HasValue)
+                            {
+                                <div class="mb-3">
+                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                        <span class="text-light-purple">Progress</span>
+                                        <small class="text-light-purple">@item.EpisodesWatched / @item.Episodes</small>
+                                    </div>
+                                    <div class="progress" style="height: 8px;">
+                                        <div class="progress-bar bg-accent" role="progressbar" 
+                                            style="width: @(item.Episodes > 0 ? (item.EpisodesWatched * 100 / item.Episodes) : 0)%"
+                                            aria-valuenow="@item.EpisodesWatched" aria-valuemin="0" aria-valuemax="@item.Episodes"></div>
+                                    </div>
+                                </div>
+                            }
+                            
+                            @if (item.Rating.HasValue)
+                            {
+                                <div class="mb-3">
+                                    <div class="d-flex align-items-center">
+                                        <div class="text-accent me-2">
+                                            @for (int i = 1; i <= 5; i++)
+                                            {
+                                                <i class="bi @(i <= Math.Ceiling(item.Rating.Value / 2.0) ? "bi-star-fill" : "bi-star")"></i>
+                                            }
+                                        </div>
+                                        <span class="text-light-purple">@item.Rating/10</span>
+                                    </div>
+                                </div>
+                            }
+                            
+                            <div class="action-buttons">
+                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-purple-outline btn-sm">
+                                    <i class="bi bi-eye me-1"></i>Details
+                                </a>
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-purple-outline btn-sm">
+                                    <i class="bi bi-pencil me-1"></i>Edit
+                                </a>
+                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger-outline btn-sm">
+                                    <i class="bi bi-trash me-1"></i>Delete
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@functions {
+    public string GetStatusClass(WatchStatus status)
+    {
+        return status switch
+        {
+            WatchStatus.Watching => "status-watching",
+            WatchStatus.Completed => "status-completed",
+            WatchStatus.PlanToWatch => "status-plan",
+            WatchStatus.Dropped => "status-dropped",
+            _ => "status-default"
+        };
+    }
+}
+
+<style>
+    body {
+        background-color: #120B29;
+        color: #fff;
+    }
+    
+    .anime-header {
+        background: linear-gradient(135deg, #1E0E42 0%, #2D1151 100%);
+        margin-bottom: 2rem;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+    
+    .bg-dark-purple {
+        background-color: #1A0B38;
+    }
+    
+    .text-light-purple {
+        color: #BBA9D9;
+    }
+    
+    .text-accent {
+        color: #F472B6;
+    }
+    
+    .btn-purple {
+        background-color: #6D28D9;
+        border: none;
+        color: white;
+    }
+    
+    .btn-purple:hover {
+        background-color: #5B21B6;
+        color: white;
+    }
+    
+    .btn-accent {
+        background-color: #F472B6;
+        border: none;
+        color: white;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-accent:hover {
+        background-color: #E74694;
+        transform: translateY(-2px);
+        color: white;
+    }
+    
+    .shadow-glow {
+        box-shadow: 0 0 15px rgba(109, 40, 217, 0.3);
+    }
+    
+    .anime-card {
+        background-color: #1A0B38;
+        border-radius: 10px;
+        overflow: hidden;
+        position: relative;
+        transition: all 0.3s ease;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        border: 1px solid rgba(109, 40, 217, 0.2);
+        padding: 1.5rem;
+    }
+    
+    .anime-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(109, 40, 217, 0.4);
+    }
+    
+    .action-buttons {
+        display: flex;
+        gap: 8px;
+        margin-top: 1rem;
+    }
+    
+    .btn-purple-outline {
+        background: transparent;
+        border: 1px solid #6D28D9;
+        color: #BBA9D9;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-purple-outline:hover {
+        background-color: #6D28D9;
+        color: white;
+    }
+    
+    .btn-danger-outline {
+        background: transparent;
+        border: 1px solid #F472B6;
+        color: #F472B6;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-danger-outline:hover {
+        background-color: #F472B6;
+        color: white;
+    }
+    
+    .filter-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 1.5rem;
+    }
+    
+    .btn-filter {
+        background-color: #1A0B38;
+        color: #BBA9D9;
+        border-radius: 20px;
+        padding: 0.5rem 1rem;
+        transition: all 0.3s ease;
+        border: 1px solid rgba(109, 40, 217, 0.3);
+    }
+    
+    .btn-filter:hover, .btn-filter.active {
+        background-color: #6D28D9;
+        color: white;
+        transform: translateY(-2px);
+    }
+    
+    .status-badge {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+    
+    .status-watching {
+        background-color: #6D28D9;
+        color: white;
+    }
+    
+    .status-completed {
+        background-color: #10B981;
+        color: white;
+    }
+    
+    .status-plan {
+        background-color: #3B82F6;
+        color: white;
+    }
+    
+    .status-dropped {
+        background-color: #6B7280;
+        color: white;
+    }
+    
+    .status-default {
+        background-color: #4B5563;
+        color: white;
+    }
+    
+    .progress {
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+    }
+</style>

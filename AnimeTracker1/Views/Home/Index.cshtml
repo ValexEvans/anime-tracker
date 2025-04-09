@@ -1,0 +1,157 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="anime-hero">
+    <div class="container py-5">
+        <div class="text-center">
+            <h1 class="display-3 fw-bold mb-3 text-light">Anime Tracker</h1>
+            <p class="lead fs-4 text-light-purple mb-5">Keep track of all your favorite anime series in one place.</p>
+            
+            <div class="d-flex justify-content-center gap-3 mt-5">
+                <a asp-controller="Anime" asp-action="Index" class="btn btn-purple btn-lg px-4 py-2">
+                    <i class="bi bi-collection me-2"></i>View My Anime List
+                </a>
+                <a asp-controller="Anime" asp-action="Create" class="btn btn-accent btn-lg px-4 py-2">
+                    <i class="bi bi-plus-circle me-2"></i>Add New Anime
+                </a>
+            </div>
+        </div>
+        
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-8">
+                <div class="card bg-dark-purple border-0 shadow-glow">
+                    <div class="card-body p-4">
+                        <h2 class="h4 mb-3 text-light">Track Your Anime Journey</h2>
+                        <p class="mb-0 text-light-purple">Organize your watching experience by keeping track of episodes watched, ratings, and statuses. Never lose track of your favorite series again!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container py-5">
+    <div class="row g-4 feature-section">
+        <div class="col-md-4">
+            <div class="feature-card">
+                <div class="icon-wrapper">
+                    <i class="bi bi-star"></i>
+                </div>
+                <h3>Watch Updates</h3>
+                <p>Keep track of which episodes you've watched and what's coming next in your favorite series.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="feature-card">
+                <div class="icon-wrapper">
+                    <i class="bi bi-camera-video"></i>
+                </div>
+                <h3>Video Content</h3>
+                <p>Manage all types of anime from classics to the latest releases across all genres.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="feature-card">
+                <div class="icon-wrapper">
+                    <i class="bi bi-graph-up"></i>
+                </div>
+                <h3>Recommendations</h3>
+                <p>Get personalized recommendations based on your watching history and preferences.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    body {
+        background-color: #120B29;
+        color: #fff;
+    }
+    
+    .anime-hero {
+        background: linear-gradient(135deg, #1E0E42 0%, #2D1151 100%);
+        padding: 2rem 0;
+        margin-bottom: 2rem;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+    
+    .bg-dark-purple {
+        background-color: #1A0B38;
+    }
+    
+    .text-light-purple {
+        color: #BBA9D9;
+    }
+    
+    .btn-purple {
+        background-color: #6D28D9;
+        border: none;
+        color: white;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-purple:hover {
+        background-color: #5B21B6;
+        transform: translateY(-2px);
+        color: white;
+    }
+    
+    .btn-accent {
+        background-color: #F472B6;
+        border: none;
+        color: white;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-accent:hover {
+        background-color: #E74694;
+        transform: translateY(-2px);
+        color: white;
+    }
+    
+    .shadow-glow {
+        box-shadow: 0 0 15px rgba(109, 40, 217, 0.3);
+    }
+    
+    .feature-card {
+        background-color: #1A0B38;
+        border-radius: 10px;
+        padding: 1.5rem;
+        height: 100%;
+        transition: all 0.3s ease;
+        text-align: center;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+    
+    .feature-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    }
+    
+    .feature-card h3 {
+        color: #fff;
+        margin: 1rem 0;
+        font-size: 1.25rem;
+    }
+    
+    .feature-card p {
+        color: #BBA9D9;
+    }
+    
+    .icon-wrapper {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #6D28D9 0%, #8B5CF6 100%);
+        margin-bottom: 1rem;
+    }
+    
+    .icon-wrapper i {
+        font-size: 1.5rem;
+        color: white;
+    }
+</style>

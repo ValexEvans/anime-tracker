@@ -1,0 +1,66 @@
+@model AnimeTracker1.Models.Anime
+@{
+    ViewData["Title"] = "Add New Anime";
+}
+
+<h1>Add New Anime</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
+            <div class="mb-3">
+                <label asp-for="Title" class="form-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            
+            <div class="mb-3">
+                <label asp-for="Description" class="form-label"></label>
+                <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            
+            <div class="mb-3">
+                <label asp-for="Studio" class="form-label"></label>
+                <input asp-for="Studio" class="form-control" />
+                <span asp-validation-for="Studio" class="text-danger"></span>
+            </div>
+            
+            <div class="mb-3">
+                <label asp-for="Episodes" class="form-label"></label>
+                <input asp-for="Episodes" class="form-control" type="number" min="1" />
+                <span asp-validation-for="Episodes" class="text-danger"></span>
+            </div>
+            
+            <div class="mb-3">
+                <label asp-for="Status" class="form-label"></label>
+                <select asp-for="Status" class="form-select" asp-items="Html.GetEnumSelectList<WatchStatus>()"></select>
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+            
+            <div class="mb-3">
+                <label asp-for="EpisodesWatched" class="form-label"></label>
+                <input asp-for="EpisodesWatched" class="form-control" type="number" min="0" />
+                <span asp-validation-for="EpisodesWatched" class="text-danger"></span>
+            </div>
+            
+            <div class="mb-3">
+                <label asp-for="Rating" class="form-label">Rating (0-10)</label>
+                <input asp-for="Rating" class="form-control" type="number" min="0" max="10" />
+                <span asp-validation-for="Rating" class="text-danger"></span>
+            </div>
+            
+            <div class="mb-3">
+                <input type="submit" value="Create" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
